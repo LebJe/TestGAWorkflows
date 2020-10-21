@@ -2,13 +2,6 @@ name: Build, Package, and Upload
 
 on:
   - release
-env:
-  MAC_SHA: ""
-  LINUX_x86_64_SHA-TAR: ""
-  LINUX_x86_64_SHA-DEB: ""
-  LINUX_x86_64_SHA-RPM: ""
-  LINUX_AARCH64_SHA: ""
-  LINUX_AARCH64_SHA-DEB: ""
 
 jobs:
   PackageOnMacOS-x86_64:
