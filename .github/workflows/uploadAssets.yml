@@ -45,11 +45,11 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           run: |
             export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
-            apt update -q
+            apt update -q && apt upgrade -yq
             apt install -yq curl sudo wget
             curl -s https://packagecloud.io/install/repositories/swift-arm/release/script.deb.sh | sudo bash
             apt update -yq
-            apt install -yq swiftlang libtinfo-dev
+            apt install -yq swiftlang libtinfo6
             wget https://github.com/futurejones/swift-arm64/releases/download/v5.3.1-RELEASE/swiftlang-5.3.1-ubuntu-20.04-release-aarch64-3-2020-11-14.tar.gz
             tar -xvf swiftlang-5.3.1-ubuntu-20.04-release-aarch64-3-2020-11-14.tar.gz
             export PATH="$(pwd)/usr/bin:$PATH"
