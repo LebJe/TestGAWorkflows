@@ -49,22 +49,7 @@ jobs:
             apt install -yq curl sudo wget
             curl -s https://packagecloud.io/install/repositories/swift-arm/release/script.deb.sh | sudo bash
             apt update -yq
-            apt install -yq swiftlang \
-            binutils \
-            git \
-            gnupg2 \
-            libc6-dev \
-            libcurl4 \
-            libedit2 \
-            libgcc-9-dev \
-            libpython2.7 \
-            libsqlite3-0 \
-            libstdc++-9-dev \
-            libxml2 \
-            libz3-dev \
-            pkg-config \
-            tzdata \
-            zlib1g-dev
+            apt install -yq swiftlang
             wget https://github.com/futurejones/swift-arm64/releases/download/v5.3.1-RELEASE/swiftlang-5.3.1-ubuntu-20.04-release-aarch64-3-2020-11-14.tar.gz
             tar -xvf swiftlang-5.3.1-ubuntu-20.04-release-aarch64-3-2020-11-14.tar.gz
             export PATH="$(pwd)/usr/bin:$PATH"
