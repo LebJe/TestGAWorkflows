@@ -160,7 +160,7 @@ jobs:
           file_glob: true
 
   UpdateRelease:
-    needs: [PackageOnMacOS-x86_64, PackageOnUbuntu-x86_64]
+    needs: [PackageOnMacOS-x86_64, PackageOnUbuntu-x86_64, PackageOnUbuntu-ARM]
     runs-on: ubuntu-latest
     steps:
       - name: Add SHA256
@@ -193,4 +193,16 @@ jobs:
 
             ```
             ${{ needs.PackageOnUbuntu-x86_64.outputs.SHA-RPM }}
+            ```
+            
+            LFSPointers-${{ github.event.release.tag_name }}-linux-arm64.tar.gz
+
+            ```
+            ${{ needs.PackageOnUbuntu-ARM.outputs.LINUX_AARCH64_SHA }}
+            ```
+            
+            LFSPointers_${{ github.event.release.tag_name }}-arm64.deb
+
+            ```
+            ${{ needs.PackageOnUbuntu-ARM.outputs.LINUX_AARCH64_SHA-DEB }}
             ```
