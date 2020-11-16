@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: uraimo/run-on-arch-action@v1.1.0
+      - uses: uraimo/run-on-arch-action@v2.0.7
         id: build-and-package
         env:
           TAG: ${{ github.event.release.tag_name }}
@@ -44,12 +44,12 @@ jobs:
           distribution: ubuntu20.04
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           run: |
-            export DEBIAN_FRONTEND=noninteractive
+            export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
             apt update -q
             apt install -yq curl sudo wget
-            #curl -s https://packagecloud.io/install/repositories/swift-arm/release/script.deb.sh | sudo bash
-            #apt update -q -y
-            #apt install -q -y swift-lang
+            curl -s https://packagecloud.io/install/repositories/swift-arm/release/script.deb.sh | sudo bash
+            apt update -yq
+            apt install -yq swiftlang
             wget https://github.com/futurejones/swift-arm64/releases/download/v5.3.1-RELEASE/swiftlang-5.3.1-ubuntu-20.04-release-aarch64-3-2020-11-14.tar.gz
             tar -xvf swiftlang-5.3.1-ubuntu-20.04-release-aarch64-3-2020-11-14.tar.gz
             export PATH="$(pwd)/usr/bin:$PATH"
@@ -108,7 +108,6 @@ jobs:
           TAG: ${{ github.event.release.tag_name }}
         run: |
           swift build -c release --enable-test-discovery --static-swift-stdlib -Xswiftc -static-executable
-          rm -f LFSPointers
           cp .build/release/LFSPointers .
           mkdir LFSPointers-$TAG-linux-amd64
           cp .build/release/LFSPointers LFSPointers-$TAG-linux-amd64
