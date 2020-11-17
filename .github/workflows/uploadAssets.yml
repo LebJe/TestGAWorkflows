@@ -98,7 +98,6 @@ jobs:
           echo "::set-output name=LINUX_AARCH64_SHA-DEB::$SHA256"
           
           # RPM
-          ls
           export SHA256="$(cat LFSPointers-$TAG-1.aarch64.rpm | shasum -a 256 | cut -d " " -f 1)"
           echo "::set-output name=LINUX_AARCH64_SHA-RPM::$SHA256"
       - name: Upload Deb
@@ -110,15 +109,15 @@ jobs:
           overwrite: true
           body: ""
           file_glob: true
-      - name: Upload RPM
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./*.rpm
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: ""
-          file_glob: true
+      # - name: Upload RPM
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: ./*.rpm
+      #     tag: ${{ github.ref }}
+      #     overwrite: true
+      #     body: ""
+      #     file_glob: true
   PackageOnUbuntu-x86_64:
     runs-on: ubuntu-latest
     container: swift:latest
@@ -172,15 +171,15 @@ jobs:
           overwrite: true
           body: ""
           file_glob: true
-      - name: Upload RPM
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./*.rpm
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: ""
-          file_glob: true
+      # - name: Upload RPM
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: ./*.rpm
+      #     tag: ${{ github.ref }}
+      #     overwrite: true
+      #     body: ""
+      #     file_glob: true
       - name: Upload Binaries
         uses: svenstaro/upload-release-action@v2
         with:
@@ -219,12 +218,7 @@ jobs:
             ```
             ${{ needs.PackageOnUbuntu-x86_64.outputs.SHA-DEB }}
             ```
-
-            LFSPointers_${{ github.event.release.tag_name }}-1.x86_64.rpm
-
-            ```
-            ${{ needs.PackageOnUbuntu-x86_64.outputs.SHA-RPM }}
-            ```
+            
             
             LFSPointers-${{ github.event.release.tag_name }}-linux-arm64.tar.gz
 
@@ -238,9 +232,15 @@ jobs:
             ${{ needs.PackageOnUbuntu-ARM.outputs.LINUX_AARCH64_SHA-DEB }}
             ```
 
-            LFSPointers-${{ github.event.release.tag_name }}-1.aarch64.rpm
+#             LFSPointers-${{ github.event.release.tag_name }}-1.aarch64.rpm
+# 
+#             ```
+#             ${{ needs.PackageOnUbuntu-ARM.outputs.LINUX_AARCH64_SHA-RPM }}
+#             ```
 
-            ```
-            ${{ needs.PackageOnUbuntu-ARM.outputs.LINUX_AARCH64_SHA-RPM }}
-            ```
-            
+
+#             LFSPointers_${{ github.event.release.tag_name }}-1.x86_64.rpm
+# 
+#             ```
+#             ${{ needs.PackageOnUbuntu-x86_64.outputs.SHA-RPM }}
+#             ```
