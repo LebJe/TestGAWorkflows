@@ -36,6 +36,7 @@ jobs:
     outputs:
       LINUX_AARCH64_SHA: ${{ steps.setEnv.outputs.LINUX_AARCH64_SHA }}
       LINUX_AARCH64_SHA-DEB: ${{ steps.hashDEB.outputs.LINUX_AARCH64_SHA-DEB }}
+      LINUX_AARCH64_SHA-RPM: ${{ steps.hashDEB.outputs.LINUX_AARCH64_SHA-RPM }}
     steps:
       - uses: actions/checkout@v2
       - uses: uraimo/run-on-arch-action@v2.0.7
@@ -63,7 +64,7 @@ jobs:
         id: setEnv
         run: |
           export SHA256=$(cat LFSPointers-$TAG-linux-arm64.tar.gz | shasum -a 256 | cut -d " " -f 1)
-          echo "LINUX_AARCH64_SHA=$SHA256" >> $GITHUB_ENV
+          echo "::set-output name=LINUX_AARCH64_SHA::$SHA256"
       - name: Upload Binaries
         uses: svenstaro/upload-release-action@v2
         with:
@@ -80,13 +81,26 @@ jobs:
           arch: aarch64
           format: deb
           package: package.yaml
-      - name: Hash Deb
+      - uses: kentik/pkg@v1.0.0-rc6
+        with:
+          name: LFSPointers
+          version: ${{ github.event.release.tag_name }}
+          arch: aarch64
+          format: rpm
+          package: package.yaml
+      - name: Hash Deb and RPM
         id: hashDEB
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
+          # DEB
           export SHA256="$(cat LFSPointers_$TAG-arm64.deb | shasum -a 256 | cut -d " " -f 1)"
-          echo "LINUX_AARCH64_SHA-DEB=$SHA256" >> $GITHUB_ENV
+          echo "::set-output name=LINUX_AARCH64_SHA-DEB::$SHA256"
+          
+          # RPM
+          ls
+          export SHA256="$(cat LFSPointers-$TAG-1.arm64.rpm | shasum -a 256 | cut -d " " -f 1)"
+          echo "::set-output name=LINUX_AARCH64_SHA-RPM::$SHA256"
       - name: Upload Deb
         uses: svenstaro/upload-release-action@v2
         with:
@@ -214,3 +228,10 @@ jobs:
             ```
             ${{ needs.PackageOnUbuntu-ARM.outputs.LINUX_AARCH64_SHA-DEB }}
             ```
+
+            LFSPointers_${{ github.event.release.tag_name }}-1.arm64.rpm
+
+            ```
+            ${{ needs.PackageOnUbuntu-ARM.outputs.LINUX_AARCH64_SHA-RPM }}
+            ```
+            
