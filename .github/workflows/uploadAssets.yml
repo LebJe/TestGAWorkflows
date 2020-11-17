@@ -43,6 +43,8 @@ jobs:
           architecture: aarch64
           distribution: ubuntu20.04
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          env: |
+            TAG: ${{ github.event.release.tag_name }}
           run: |
             export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
             apt update -q && apt upgrade -yq
