@@ -63,7 +63,7 @@ jobs:
       - name: SetEnv
         id: setEnv
         run: |
-          export SHA256=$(cat LFSPointers-$TAG-linux-arm64.tar.gz | shasum -a 256 | cut -d " " -f 1)
+          export SHA256="$(cat LFSPointers-$TAG-linux-arm64.tar.gz | shasum -a 256 | cut -d " " -f 1)"
           echo "::set-output name=LINUX_AARCH64_SHA::$SHA256"
       - name: Upload Binaries
         uses: svenstaro/upload-release-action@v2
@@ -94,7 +94,7 @@ jobs:
           TAG: ${{ github.event.release.tag_name }}
         run: |
           # DEB
-          export SHA256="$(cat LFSPointers_$TAG-arm64.deb | shasum -a 256 | cut -d " " -f 1)"
+          export SHA256="$(cat LFSPointers_$TAG-1_arm64.deb | shasum -a 256 | cut -d " " -f 1)"
           echo "::set-output name=LINUX_AARCH64_SHA-DEB::$SHA256"
           
           # RPM
