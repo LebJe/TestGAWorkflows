@@ -99,7 +99,7 @@ jobs:
           
           # RPM
           ls
-          export SHA256="$(cat LFSPointers-$TAG-1.arm64.rpm | shasum -a 256 | cut -d " " -f 1)"
+          export SHA256="$(cat LFSPointers-$TAG-1.aarch64.rpm | shasum -a 256 | cut -d " " -f 1)"
           echo "::set-output name=LINUX_AARCH64_SHA-RPM::$SHA256"
       - name: Upload Deb
         uses: svenstaro/upload-release-action@v2
@@ -229,7 +229,7 @@ jobs:
             ${{ needs.PackageOnUbuntu-ARM.outputs.LINUX_AARCH64_SHA-DEB }}
             ```
 
-            LFSPointers_${{ github.event.release.tag_name }}-1.arm64.rpm
+            LFSPointers-${{ github.event.release.tag_name }}-1.aarch64.rpm
 
             ```
             ${{ needs.PackageOnUbuntu-ARM.outputs.LINUX_AARCH64_SHA-RPM }}
