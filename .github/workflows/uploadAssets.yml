@@ -110,6 +110,15 @@ jobs:
           overwrite: true
           body: ""
           file_glob: true
+      - name: Upload RPM
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./*.rpm
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: ""
+          file_glob: true
   PackageOnUbuntu-x86_64:
     runs-on: ubuntu-latest
     container: swift:latest
